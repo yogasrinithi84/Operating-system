@@ -1,0 +1,134 @@
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#define MAX_FILES 10
+#define MAX_USERS 5
+// Single-Level Directory
+char singleLevel[MAX_FILES][20];
+int fileCount = 0;
+// Two-Level Directory
+char users[MAX_USERS][20];
+char twoLevel[MAX_USERS][MAX_FILES][20];
+int userFileCount[MAX_USERS] = {0};
+int userCount = 0;
+// Function to create a file in Single-Level Directory
+void createSingleLevelFile() {
+if (fileCount &gt;= MAX_FILES) {
+printf(&quot;Directory is full!\n&quot;);
+
+52
+
+return;
+}
+printf(&quot;Enter filename: &quot;);
+scanf(&quot;%s&quot;, singleLevel[fileCount]);
+fileCount++;
+printf(&quot;File created successfully.\n&quot;);
+}
+// Function to display files in Single-Level Directory
+void displaySingleLevelFiles() {
+if (fileCount == 0) {
+printf(&quot;No files in directory.\n&quot;);
+return;
+}
+printf(&quot;Files in Single-Level Directory:\n&quot;);
+for (int i = 0; i &lt; fileCount; i++) {
+printf(&quot;%s\n&quot;, singleLevel[i]);
+}
+}
+// Function to create a user directory in Two-Level Directory
+void createUser() {
+if (userCount &gt;= MAX_USERS) {
+printf(&quot;Maximum users reached!\n&quot;);
+return;
+}
+printf(&quot;Enter username: &quot;);
+scanf(&quot;%s&quot;, users[userCount]);
+userCount++;
+printf(&quot;User directory created successfully.\n&quot;);
+}
+// Function to create a file in Two-Level Directory
+void createTwoLevelFile() {
+char username[20], filename[20];
+printf(&quot;Enter username: &quot;);
+scanf(&quot;%s&quot;, username);
+int userIndex = -1;
+for (int i = 0; i &lt; userCount; i++) {
+if (strcmp(users[i], username) == 0) {
+userIndex = i;
+break;
+}
+}
+if (userIndex == -1) {
+printf(&quot;User not found!\n&quot;);
+return;
+
+53
+
+}
+if (userFileCount[userIndex] &gt;= MAX_FILES) {
+printf(&quot;User&#39;s directory is full!\n&quot;);
+return;
+}
+printf(&quot;Enter filename: &quot;);
+scanf(&quot;%s&quot;, twoLevel[userIndex][userFileCount[userIndex]]);
+userFileCount[userIndex]++;
+printf(&quot;File created successfully.\n&quot;);
+}
+// Function to display files in Two-Level Directory
+void displayTwoLevelFiles() {
+if (userCount == 0) {
+printf(&quot;No user directories available.\n&quot;);
+return;
+}
+for (int i = 0; i &lt; userCount; i++) {
+printf(&quot;User: %s\n&quot;, users[i]);
+if (userFileCount[i] == 0) {
+printf(&quot; No files.\n&quot;);
+} else {
+for (int j = 0; j &lt; userFileCount[i]; j++) {
+printf(&quot; %s\n&quot;, twoLevel[i][j]);
+}
+}
+}
+}
+// Main function to handle user input
+int main() {
+int choice;
+while (1) {
+printf(&quot;\nFile Organization Techniques:\n&quot;);
+printf(&quot;1. Create File (Single-Level)\n&quot;);
+printf(&quot;2. Display Files (Single-Level)\n&quot;);
+printf(&quot;3. Create User (Two-Level)\n&quot;);
+printf(&quot;4. Create File (Two-Level)\n&quot;);
+printf(&quot;5. Display User Files (Two-Level)\n&quot;);
+printf(&quot;6. Exit\n&quot;);
+printf(&quot;Enter choice: &quot;);
+scanf(&quot;%d&quot;, &amp;choice);
+switch (choice) {
+case 1:
+createSingleLevelFile();
+
+54
+
+break;
+case 2:
+displaySingleLevelFiles();
+break;
+case 3:
+createUser();
+break;
+case 4:
+createTwoLevelFile();
+break;
+case 5:
+displayTwoLevelFiles();
+break;
+case 6:
+printf(&quot;Exiting program...\n&quot;);
+return 0;
+default:
+printf(&quot;Invalid choice! Please try again.\n&quot;);
+}
+}
+return 0;
+}

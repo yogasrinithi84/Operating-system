@@ -1,0 +1,52 @@
+#include &lt;stdio.h&gt;
+int main() {
+int memsize = 15;
+int pagesize, nofpage;
+int p[100];
+int frameno, offset;
+int logadd, phyadd;
+int i;
+int choice = 0;
+printf(&quot;Memory size is %d\n&quot;, memsize);
+// Input page size
+printf(&quot;Enter page size: &quot;);
+scanf(&quot;%d&quot;, &amp;pagesize);
+// Validate page size
+if (pagesize &lt;= 0 || pagesize &gt; memsize) {
+printf(&quot;Invalid page size! Must be between 1 and %d.\n&quot;, memsize);
+return 1;
+}
+// Calculate the number of pages
+nofpage = memsize / pagesize;
+printf(&quot;Number of pages: %d\n&quot;, nofpage);
+// Input frame numbers for each page
+for (i = 0; i &lt; nofpage; i++) {
+printf(&quot;Enter the frame number for page %d: &quot;, i);
+scanf(&quot;%d&quot;, &amp;p[i]);
+// Validate frame number
+if (p[i] &lt; 0) {
+printf(&quot;Invalid frame number! Must be non-negative.\n&quot;);
+return 1;
+}
+}
+// Logical to physical address translation loop
+do {
+printf(&quot;Enter a logical address: &quot;);
+scanf(&quot;%d&quot;, &amp;logadd);
+// Validate logical address
+if (logadd &lt; 0 || logadd &gt;= memsize) {
+printf(&quot;Invalid logical address! Must be between 0 and %d.\n&quot;, memsize - 1);
+
+38
+
+continue;
+}
+frameno = logadd / pagesize;
+offset = logadd % pagesize;
+phyadd = (p[frameno] * pagesize) + offset;
+printf(&quot;Physical address is: %d\n&quot;, phyadd);
+printf(&quot;Do you want to continue (1 for Yes, 0 for No)?: &quot;);
+scanf(&quot;%d&quot;, &amp;choice);
+} while (choice == 1);
+return 0;
+}
